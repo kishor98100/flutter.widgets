@@ -44,6 +44,7 @@ class ScrollablePositionedList extends StatefulWidget {
     this.initialAlignment = 0,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
+    this.shrinkWrap = false,
     this.physics,
     this.semanticChildCount,
     this.padding,
@@ -70,6 +71,7 @@ class ScrollablePositionedList extends StatefulWidget {
     this.initialAlignment = 0,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
+    this.shrinkWrap = false,
     this.physics,
     this.semanticChildCount,
     this.padding,
@@ -82,6 +84,8 @@ class ScrollablePositionedList extends StatefulWidget {
         assert(separatorBuilder != null),
         itemPositionsNotifier = itemPositionsListener as ItemPositionsNotifier?,
         super(key: key);
+
+  final bool shrinkWrap;
 
   /// Number of items the [itemBuilder] can produce.
   final int itemCount;
