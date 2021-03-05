@@ -304,39 +304,77 @@ class _PositionedListState extends State<PositionedList> {
           return;
         }
         final positions = <ItemPosition>[];
-        RenderViewport viewport;
-        for (var element in registeredElements.value) {
-          final RenderBox box = element.renderObject;
-          viewport ??= RenderAbstractViewport.of(box);
-          final ValueKey<int> key = element.widget.key;
-          if (widget.scrollDirection == Axis.vertical) {
-            final reveal = viewport.getOffsetToReveal(box, 0).offset;
-            final itemOffset = reveal -
-                viewport.offset.pixels +
-                viewport.anchor * viewport.size.height;
-            positions.add(ItemPosition(
-                index: key.value,
-                itemLeadingEdge: itemOffset.round() /
-                    scrollController.position.viewportDimension,
-                itemTrailingEdge: (itemOffset + box.size.height).round() /
-                    scrollController.position.viewportDimension));
-          } else {
-            final itemOffset =
-                box.localToGlobal(Offset.zero, ancestor: viewport).dx;
-            positions.add(ItemPosition(
-                index: key.value,
-                itemLeadingEdge: (widget.reverse
-                            ? scrollController.position.viewportDimension -
-                                (itemOffset + box.size.width)
-                            : itemOffset)
-                        .round() /
-                    scrollController.position.viewportDimension,
-                itemTrailingEdge: (widget.reverse
-                            ? scrollController.position.viewportDimension -
-                                itemOffset
-                            : (itemOffset + box.size.width))
-                        .round() /
-                    scrollController.position.viewportDimension));
+        if (widget.shrinkWrap) {
+          RenderShrinkWrappingViewport viewport;
+          for (var element in registeredElements.value) {
+            final RenderBox box = element.renderObject;
+            viewport ??= RenderAbstractViewport.of(box);
+            final ValueKey<int> key = element.widget.key;
+            if (widget.scrollDirection == Axis.vertical) {
+              final reveal = viewport.getOffsetToReveal(box, 0).offset;
+              final itemOffset = reveal -
+                  viewport.offset.pixels +
+                  viewport.anchor * viewport.size.height;
+              positions.add(ItemPosition(
+                  index: key.value,
+                  itemLeadingEdge: itemOffset.round() /
+                      scrollController.position.viewportDimension,
+                  itemTrailingEdge: (itemOffset + box.size.height).round() /
+                      scrollController.position.viewportDimension));
+            } else {
+              final itemOffset =
+                  box.localToGlobal(Offset.zero, ancestor: viewport).dx;
+              positions.add(ItemPosition(
+                  index: key.value,
+                  itemLeadingEdge: (widget.reverse
+                              ? scrollController.position.viewportDimension -
+                                  (itemOffset + box.size.width)
+                              : itemOffset)
+                          .round() /
+                      scrollController.position.viewportDimension,
+                  itemTrailingEdge: (widget.reverse
+                              ? scrollController.position.viewportDimension -
+                                  itemOffset
+                              : (itemOffset + box.size.width))
+                          .round() /
+                      scrollController.position.viewportDimension));
+            }
+          }
+        } else {
+          RenderViewport viewport;
+          for (var element in registeredElements.value) {
+            final RenderBox box = element.renderObject;
+            viewport ??= RenderAbstractViewport.of(box);
+            final ValueKey<int> key = element.widget.key;
+            if (widget.scrollDirection == Axis.vertical) {
+              final reveal = viewport.getOffsetToReveal(box, 0).offset;
+              final itemOffset = reveal -
+                  viewport.offset.pixels +
+                  viewport.anchor * viewport.size.height;
+              positions.add(ItemPosition(
+                  index: key.value,
+                  itemLeadingEdge: itemOffset.round() /
+                      scrollController.position.viewportDimension,
+                  itemTrailingEdge: (itemOffset + box.size.height).round() /
+                      scrollController.position.viewportDimension));
+            } else {
+              final itemOffset =
+                  box.localToGlobal(Offset.zero, ancestor: viewport).dx;
+              positions.add(ItemPosition(
+                  index: key.value,
+                  itemLeadingEdge: (widget.reverse
+                              ? scrollController.position.viewportDimension -
+                                  (itemOffset + box.size.width)
+                              : itemOffset)
+                          .round() /
+                      scrollController.position.viewportDimension,
+                  itemTrailingEdge: (widget.reverse
+                              ? scrollController.position.viewportDimension -
+                                  itemOffset
+                              : (itemOffset + box.size.width))
+                          .round() /
+                      scrollController.position.viewportDimension));
+            }
           }
         }
         widget.itemPositionsNotifier?.itemPositions?.value = positions;
