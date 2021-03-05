@@ -35,6 +35,7 @@ class PositionedList extends StatefulWidget {
     this.alignment = 0,
     this.scrollDirection = Axis.vertical,
     this.reverse = false,
+    this.shrinkWrap = false,
     this.physics,
     this.padding,
     this.cacheExtent,
@@ -45,6 +46,8 @@ class PositionedList extends StatefulWidget {
   })  : assert(itemCount != null),
         assert(itemBuilder != null),
         assert((positionedIndex == 0) || (positionedIndex < itemCount));
+
+  final bool shrinkWrap;
 
   /// Number of items the [itemBuilder] can produce.
   final int itemCount;
@@ -163,6 +166,7 @@ class _PositionedListState extends State<PositionedList> {
           reverse: widget.reverse,
           cacheExtent: widget.cacheExtent,
           physics: widget.physics,
+          shrinkWrap: widget.shrinkWrap,
           semanticChildCount: widget.semanticChildCount ?? widget.itemCount,
           slivers: <Widget>[
             if (widget.positionedIndex > 0)
