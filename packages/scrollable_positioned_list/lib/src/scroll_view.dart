@@ -34,7 +34,7 @@ class UnboundedCustomScrollView extends CustomScrollView {
           primary: primary,
           physics: physics,
           shrinkWrap: shrinkWrap,
-          center: center,
+          center: null,
           cacheExtent: cacheExtent,
           semanticChildCount: semanticChildCount,
           dragStartBehavior: dragStartBehavior,
